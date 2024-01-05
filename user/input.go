@@ -2,8 +2,8 @@ package user
 
 // Register User
 type RegisterUserInput struct {
-	Name string
-	Occupation string
-	Email string
-	Password string
+	Name 		string `json:"name" binding:"required"`
+	Occupation 	string `json:"occupation" binding:"required"`
+	Email 		string `json:"email" binding:"required,email"`
+	Password 	string `json:"password" binding:"required"`
 }
