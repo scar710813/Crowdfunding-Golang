@@ -23,6 +23,9 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 
+	// Register Avatar
+	userService.SaveAvatar(1, "images/1-profile.png")
+
 	// Routing Register User
 	userHandler := handler.NewUserHandler(userService)
 
@@ -32,6 +35,7 @@ func main() {
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
+	api.POST("/avatars", userHandler.UploadAvatar)
 
 	router.Run()
 }
