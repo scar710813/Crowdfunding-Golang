@@ -1,18 +1,15 @@
 package main
 
 import (
-	// "fmt"
 	"log"
-	// "net/http"
 	"nura-fund/handler"
 	"nura-fund/user"
 
-	// "github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-  
+
 func main() {
 	// Database Connection
 	dsn := "root:@tcp(127.0.0.1:3306)/nura_fund?charset=utf8mb4&parseTime=True&loc=Local"
@@ -33,6 +30,7 @@ func main() {
 	api := router.Group("/api/v1")
 
 	api.POST("/users", userHandler.RegisterUser)
+	api.POST("/sessions", userHandler.Login)
 
 	router.Run()
 }
