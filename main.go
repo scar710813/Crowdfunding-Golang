@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"nura-fund/auth"
 	"nura-fund/handler"
 	"nura-fund/user"
 
@@ -22,12 +23,14 @@ func main() {
 	// Register User Repository
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+	// Auth Service
+	authService := auth.NewService()
 
 	// Register Avatar
 	userService.SaveAvatar(1, "images/1-profile.png")
 
 	// Routing Register User
-	userHandler := handler.NewUserHandler(userService)
+	userHandler := handler.NewUserHandler(userService, authService)
 
 	router := gin.Default()
 	api := router.Group("/api/v1")
