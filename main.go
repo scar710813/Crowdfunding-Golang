@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"nura-fund/auth"
+	"nura-fund/campaign"
 	"nura-fund/handler"
 	"nura-fund/helper"
 	"nura-fund/user"
@@ -27,6 +29,25 @@ func main() {
 	// Register User Repository
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+
+	// Campaign Repository
+	campaignRepository := campaign.NewRepository(db)
+
+	campaigns, err := campaignRepository.FindByUserID(1)
+
+	fmt.Println("debug")
+	fmt.Println("debug")
+	fmt.Println("debug")
+	fmt.Println(len(campaigns))
+	for _, campaign := range campaigns {
+		fmt.Println(campaign.Name)
+		if len(campaign.CampaignImages) > 0 {
+			fmt.Println("total images")
+			fmt.Println(len(campaign.CampaignImages))
+			fmt.Println(campaign.CampaignImages[0].FileName)
+		}
+	}
+
 	// Auth Service
 	authService := auth.NewService()
 
