@@ -7,6 +7,7 @@ import (
 	"nura-fund/campaign"
 	"nura-fund/handler"
 	"nura-fund/helper"
+	"nura-fund/transaction"
 	"nura-fund/user"
 	"strings"
 
@@ -25,22 +26,21 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	// Register User Repository
+	// Repository
 	userRepository := user.NewRepository(db)
-	userService := user.NewService(userRepository)
-
-	// Campaign Repository
 	campaignRepository := campaign.NewRepository(db)
+	transactionRepository := transaction.NewRepository(db)
 
-	// Campaign Service
+	// Service
+	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campaignRepository)
-
-	// Auth Service
 	authService := auth.NewService()
+	transactionService := transaction.NewService(transactionRepository, campaignRepository)
 
 	// Handler
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
+	transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	router := gin.Default()
 	router.Static("/images", "./images/")
@@ -56,6 +56,8 @@ func main() {
 	api.POST("/campaigns", authMiddleware(authService, userService), campaignHandler.CreateCampaign)
 	api.PUT("/campaigns/:id", authMiddleware(authService, userService), campaignHandler.UpdateCampaign)
 	api.POST("/campaign-images", authMiddleware(authService, userService), campaignHandler.UploadImage)
+
+	api.GET("/campaigns/:id/transactions", authMiddleware(authService, userService), transactionHandler.GetCampaignTransactions)
 
 	router.Run()
 }
