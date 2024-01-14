@@ -7,6 +7,7 @@ import (
 	"nura-fund/campaign"
 	"nura-fund/handler"
 	"nura-fund/helper"
+	"nura-fund/payment"
 	"nura-fund/transaction"
 	"nura-fund/user"
 	"strings"
@@ -35,18 +36,8 @@ func main() {
 	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
-	transactionService := transaction.NewService(transactionRepository, campaignRepository)
-
-	// user, _ := userService.GetUserByID(21)
-
-	// input := transaction.CreateTransactionInput{
-	// 	CampaignID: 8,
-	// 	Amount:     5000000,
-	// 	User:       user,
-	// 	Code:       "code",
-	// }
-
-	// transactionService.CreateTransaction(input)
+	paymentService := payment.NewService()
+	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymentService)
 
 	// Handler
 	userHandler := handler.NewUserHandler(userService, authService)
