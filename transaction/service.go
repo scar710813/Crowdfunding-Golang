@@ -2,11 +2,9 @@ package transaction
 
 import (
 	"errors"
-	"fmt"
 	"nura-fund/campaign"
 	"nura-fund/payment"
 	"strconv"
-	"time"
 )
 
 type service struct {
@@ -60,10 +58,6 @@ func (s *service) CreateTransaction(input CreateTransactionInput) (Transaction, 
 	transaction.Amount = input.Amount
 	transaction.UserID = input.User.ID
 	transaction.Status = "pending"
-
-	// Unique code for transaction code
-	timestamp := time.Now().UnixNano() / int64(time.Millisecond)
-	transaction.Code = fmt.Sprintf("ORDER-%d%d%d", input.User.ID, input.CampaignID, timestamp)
 
 	newTransaction, err := s.repository.Save(transaction)
 	if err != nil {
