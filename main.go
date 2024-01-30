@@ -66,6 +66,10 @@ func main() {
 	router.Static("/images", "./images/")
 	router.Static("/campaign-images", "./campaign-images/")
 
+	router.Static("/css", "./web/assets/css")
+	router.Static("/js", "./web/assets/js")
+	router.Static("/webfonts", "./web/assets/webfonts")
+
 	api := router.Group("/api/v1")
 
 	api.POST("/users", userHandler.RegisterUser)
