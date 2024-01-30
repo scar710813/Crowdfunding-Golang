@@ -2,19 +2,28 @@ package user
 
 // Register User
 type RegisterUserInput struct {
-	Name 		string `json:"name" binding:"required"`
-	Occupation 	string `json:"occupation" binding:"required"`
-	Email 		string `json:"email" binding:"required,email"`
-	Password 	string `json:"password" binding:"required"`
+	Name       string `json:"name" binding:"required"`
+	Occupation string `json:"occupation" binding:"required"`
+	Email      string `json:"email" binding:"required,email"`
+	Password   string `json:"password" binding:"required"`
 }
 
 // Login User
 type LoginInput struct {
-	Email 		string `json:"email" binding:"required,email"`
-	Password 	string `json:"password" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
 }
 
 // Check Email Availability
 type CheckEmailInput struct {
-	Email 		string `json:"email" binding:"required,email"`
+	Email string `json:"email" binding:"required,email"`
+}
+
+// Register Admin
+type FormCreateUserInput struct {
+	Name       string `form:"name" binding:"required"`
+	Email      string `form:"email" binding:"required,email"`
+	Occupation string `form:"occupation" binding:"required"`
+	Password   string `form:"password" binding:"required"`
+	Error      error
 }
